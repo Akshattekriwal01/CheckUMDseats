@@ -10,20 +10,17 @@ var parsedData
 var server  = app.listen(3004);
 app.set("view engine", "ejs");
 
-
 var subjectArr =["CMSC320","STAT410","CMSC216","CMSC330","CMSC351","CMSC451"]
 subjectArr.sort()
 var subjects = ""
     subjectArr.forEach(element => {
         subjects += element+","
     })
-
 //gives the JSON 
 request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,response,body)=>{
     if(!error){
         parsedData= JSON.parse(body);
-    }
-          
+    }  
   var i = -1
   function myloop () {
       setTimeout(()=>{
@@ -46,17 +43,12 @@ request("https://app.testudo.umd.edu/soc/search?courseId="+subjectArr[i]+"&secti
             parsedData[i].sections[j].open_seats = os 
             parsedData[i].sections[j].seats = ts
             parsedData[i].sections[j].waitlist = ws
-                j++
-            
-        })
-
-        
-        }
-        
+                j++            
+        })        
+        }        
     })
 
 //==================
-
        // console.log("value in ===== i======  ="+i)
         if(i<(subjectArr.length)-1){
         myloop()
