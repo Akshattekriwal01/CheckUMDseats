@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Open Seats</title>
+
+    </head>
+        <body>
+           <% data.forEach(ele =>{ %>
+            <p> <%= ele.course_id %> </p>
+            <table>
+                <tr>
+                    <th>Section</th>
+                    <th> Professor</th>
+                    <th> Timing </th>
+                    <th> Total Seats</th>
+                    <th> Open Seats</th>
+                    <th> Waitlisting</th>
+                </tr>
+            <% ele.sections.forEach(function(element) { %>
+                <tr >
+                    <td><%= element.number %>       </td>
+                    <td><%= element.instructors[0] %></td>
+                    <% var startTime = element.meetings[0].start_time %>
+                    <% var endTime = element.meetings[0].end_time %>
+                    <td> <%= startTime %>-<%= endTime %></td>
+                    <td style="text-align:center"> <%=element.seats%></td>
+                    <td style="text-align:center"><%=element.open_seats%></td>
+                    <td style="text-align:center"><%=element.waitlist%></td>
+                </tr>
+                <% if(element.meetings.length > 1){%>
+                <tr style="font-weight:bold">
+                    <td><%= element.number %>       </td>
+                    <td><%= element.meetings[1].classtype %></td>
+                    <% var startTime1 = element.meetings[1].start_time %>
+                    <% var endTime1 = element.meetings[1].end_time %>
+                    <td> <%= startTime1 %>-<%= endTime1 %></td>
+                <!--
+                    <td style="text-align:center"> <%=element.seats%></td>
+                    <td style="text-align:center"><%=element.open_seats%></td>
+                    <td style="text-align:center"><%=element.waitlist%></td>
+                -->
+                </tr>
+
+                <%}%>
+             <% }) %>
+            </table>
+           <% }) %>
+
+           
+        </body>
+</html>
