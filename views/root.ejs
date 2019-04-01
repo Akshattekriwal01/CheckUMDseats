@@ -5,6 +5,26 @@
 
     </head>
         <body>
+           
+            <form action="/refresh" method="GET">
+                    <input type="submit" value="Refresh" formaction="/refresh" onclick="closeWindow()">
+            </form>
+             <!--
+            <form action="/other" method="GET">
+                <input type="text" placeholder="Search other Classes" name="search">
+                <input type="submit" value="Hit to submit">
+            </form>
+            -->
+            <script>
+            function closeWindow () {
+           // to implement a refresh feature I am closing everything and reopening in
+           //new window     
+                setTimeout(()=>{
+                    window.close()},
+                    1000)
+
+            }
+            </script>
            <% data.forEach(ele =>{ %>
             <p> <%= ele.course_id %> </p>
             <table>
