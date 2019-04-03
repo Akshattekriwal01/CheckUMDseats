@@ -42,9 +42,10 @@ request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,resp
                     var os =  $('.open-seats-count').eq(j).text()
                     var ts =  $('.total-seats-count').eq(j).text()
                     var ws =  $('.waitlist-count').eq(j).text()
-                //   console.log("value in of i ="+i)
+                  //console.log("value in of i ="+i)
                     parsedData[i].sections[j].open_seats = os 
                     parsedData[i].sections[j].seats = ts
+                
                     parsedData[i].sections[j].waitlist = ws
                         j++            
                 })        
@@ -59,14 +60,17 @@ request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,resp
                 else{
                     console.log("pulling data done")
                     console.log("opening browser")
+                   setTimeout(()=>{
                     exec('open -a "Google Chrome" http://localhost:3004', (err, stdout, stderr) => {
                         if (err) {
                         // node couldn't execute the command
                         return;
                         }
-                    });
+                    })
+                   }
+                     ,500)
                 }
-            },1000)
+            },500)
 
   }
  a();
@@ -89,4 +93,6 @@ app.get("/refresh", (req,res) => {
     // subjectArr.length*1100)
 
 })
-console.log("server is running bitch")
+console.log("Hope there are enough seats")
+
+
