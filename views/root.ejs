@@ -31,6 +31,7 @@
                 <tr>
                     <th>Section</th>
                     <th> Professor</th>
+                    <th> Days</th>
                     <th> Timing </th>
                     <th> Total Seats</th>
                     <th> Open Seats</th>
@@ -40,6 +41,7 @@
                 <tr >
                     <td><%= element.number %>       </td>
                     <td><%= element.instructors[0] %></td>
+                    <td><%= element.meetings[0].days %></td>
                     <% var startTime = element.meetings[0].start_time %>
                     <% var endTime = element.meetings[0].end_time %>
                     <td> <%= startTime %>-<%= endTime %></td>
@@ -51,6 +53,7 @@
                 <tr style="font-weight:bold">
                     <td><%= element.number %>       </td>
                     <td><%= element.meetings[1].classtype %></td>
+                    <td><%= element.meetings[1].days %></td>
                     <% var startTime1 = element.meetings[1].start_time %>
                     <% var endTime1 = element.meetings[1].end_time %>
                     <td> <%= startTime1 %>-<%= endTime1 %></td>

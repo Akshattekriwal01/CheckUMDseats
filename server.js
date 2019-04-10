@@ -2,15 +2,16 @@ var express = require('express')
 var app     = express()
 var request = require('request')
 var cheerio = require('cheerio')
+var prog    = require('cli-progress')
 const { exec } = require('child_process');
-
+const bar1 = new prog.Bar({format: '{bar} {percentage}% | {duration}s | ETA: {eta}s | {value}/{total}'}, prog.Presets.shades_grey);
 
 var parsedData
 
 var server  = app.listen(3004);
 app.set("view engine", "ejs");
 
-var subjectArr =["CMSC320","STAT410","CMSC330","CMSC451"]
+var subjectArr =["CMSC320","STAT410","CMSC330","CMSC451","math410","stat401","bmgt430","math475"]
 subjectArr = subjectArr.map((x)=>x.toUpperCase())
 subjectArr.sort()
 var subjects = ""
@@ -18,6 +19,7 @@ var subjects = ""
         subjects += element+","
     })
 //gives the JSON 
+bar1.start(100, 0);
 var a
 var i 
 request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,response,body)=>{
@@ -29,7 +31,9 @@ request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,resp
             setTimeout(()=>{
         //==================
             i++
-            console.log("pulling latest data")
+            //console.log(i)
+            bar1.update((i+1)*(100/subjectArr.length))
+            //console.log("pulling latest data")
             //console.log("value of i before request ="+i)
             request("https://app.testudo.umd.edu/soc/search?courseId="+subjectArr[i]+"&sectionId=&termId=201908&_openSectionsOnly=on&creditCompare=&credits=&courseLevelFilter=ALL&instructor=&_facetoface=on&_blended=on&_online=on&courseStartCompare=&courseStartHour=&courseStartMin=&courseStartAM=&courseEndHour=&courseEndMin=&courseEndAM=&teachingCenter=ALL&_classDay1=on&_classDay2=on&_classDay3=on&_classDay4=on&_classDay5=on",(error,response,body)=>{
                 
@@ -44,10 +48,16 @@ request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,resp
                     var ws =  $('.waitlist-count').eq(j).text()
                   //console.log("value in of i ="+i)
                     parsedData[i].sections[j].open_seats = os 
+
                     parsedData[i].sections[j].seats = ts
                 
                     parsedData[i].sections[j].waitlist = ws
-                        j++            
+
+
+                    
+                        j++    
+                   
+       
                 })        
                 }        
             })
@@ -58,6 +68,7 @@ request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,resp
                 myloop()
                 }
                 else{
+                        bar1.stop();
                     console.log("pulling data done")
                     console.log("opening browser")
                    setTimeout(()=>{
@@ -68,12 +79,13 @@ request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,resp
                         }
                     })
                    }
-                     ,500)
+                     ,2000)
                 }
-            },500)
+            },2000)
 
   }
  a();
+ // stop the progress bar
  
 })
 
@@ -93,6 +105,6 @@ app.get("/refresh", (req,res) => {
     // subjectArr.length*1100)
 
 })
-console.log("Hope there are enough seats")
+//console.log("Hope there are enough seats")
 
 
