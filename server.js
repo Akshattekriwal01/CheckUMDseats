@@ -52,13 +52,8 @@ request("https://api.umd.io/v0/courses/"+subjects+"?expand=sections",(error,resp
                     parsedData[i].sections[j].seats = ts
                 
                     parsedData[i].sections[j].waitlist = ws
-
-
-                    
-                        j++    
-                   
-       
-                })        
+                        j++ ;                      
+                       })        
                 }        
             })
 
